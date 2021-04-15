@@ -50,8 +50,8 @@ async def on_message(message):
         mutecal.calculate(user,datetime.datetime.now(), badWord_timer)
         await log_channel.send(embed=embed)
         await channel.send(f"{user.name} Ne beszélj csúnyán!")
-        _muter = muter.Muter(client, user, badWord_timer)
         await message.delete()
+        _muter = muter.Muter(client, user, badWord_timer)
 
 @client.command()
 async def test(ctx):
