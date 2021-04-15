@@ -4,11 +4,13 @@ import mutedate_cal as mutecal
 import datetime
 import modifier
 
-client = commands.Bot(command_prefix='?!?')
+client = commands.Bot(command_prefix='??')
 
 @client.event
 async def on_ready():
     print("Bot is ready!")
+    log_channel = client.get_channel(831509478427328522)
+    await log_channel.send("teszt")
 
 @client.event
 async def on_message(message):
@@ -17,9 +19,9 @@ async def on_message(message):
     usermutes, ind = mutecal.getMuteData(user)
     if not usermutes[ind][1] == "":
         print(usermutes[ind][1])
-        if modifier.string_date(usermutes[ind][1]) < datetime.datetime.now():
-            message.delete()
-            print("delete messages")
+        #if modifier.string_date(usermutes[ind][1]) < datetime.datetime.now():
+            #message.delete()
+            #print("delete messages")
     log_channel = client.get_channel(831509478427328522)
     words = message.content.lower().split(chr(32))
     badWords = ["buzi", "kurva", "fasz", "rohadék", "geci"]
@@ -53,4 +55,8 @@ async def on_message(message):
         await channel.send(f"{user.name} Ne beszélj csúnyán!")
         await message.delete()
 
+@client.command()
+async def test(ctx):
+    print("Teszt!")
+    await ctx.send("Hi! This is a test!")
 client.run("ODEyMzM2MDMwMjI5MjAwOTA2.YC_Q4g.Bcj8mWFC4db7yxN1PNC3wMoXKBM")
