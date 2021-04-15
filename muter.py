@@ -10,4 +10,4 @@ class Muter:
         self.time = time
         sleep(self.time)
         message = user + " " + str(time) + "idő után újra beszélhet!"
-        await self.channel.send(message)
+        print(message)
