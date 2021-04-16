@@ -28,8 +28,13 @@ def date_string(date = datetime.now()):
     return out
 
 def string_date(str: str):
-    elements = str.split("-")
-    year = int(elements[0])
-    month = int(elements[1])
-    day = int(elements[2])
-    return date(year,month,day)
+    elements = str.split(" ")
+    date = elements[0].split("-")
+    time = elements[1].split(":")
+    year = int(date[0])
+    month = int(date[1])
+    day = int(date[2])
+    hour = int(time[0])
+    minute = int(time[1])
+    day = int(time[2])
+    return datetime(year,month,day,hour,minute,day)

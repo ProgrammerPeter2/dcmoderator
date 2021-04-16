@@ -25,9 +25,8 @@ async def on_message(message):
     global badWords, mutes, log_channel
     for us_ind in range(len(mutes)):
         if mutes[us_ind][0] == user:
-            print(user)
-            if us[1] != "":
-                if modifier.string_date(us[1]) < datetime.datetime.now():
+            if mutes[us_ind][1] != "":
+                if modifier.string_date(mutes[us_ind][1]) < datetime.datetime.now():
                     message.delete()
     is_bad_word = False
     bad_words = list()
