@@ -23,7 +23,7 @@ async def on_message(message):
     user = message.author
     words = message.content.lower().split(chr(32))
     global badWords, mutes
-    if type(mutes[user.name]) == "<class datetime>":
+    if type(mutes[user.name]) == datetime.datetime:
         print(mutes[user.name])
     is_bad_word = False
     bad_words = list()
