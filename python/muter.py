@@ -12,7 +12,7 @@ class Muter:
         self.time = time
         self.date = mutedate_cal.calculate(self.user, datetime.now(), self.time)
     
-    @self.client.event
+    
     async def on_message(self, message):
         if message.author == self.user:
             print("Beszédkísérlet!")
