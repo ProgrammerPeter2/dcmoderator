@@ -1,21 +1,23 @@
 import discord
 from discord.ext import commands
+from discord.utils import get
 import mutedate_cal as mutecal
-import os
 import modifier
 import datetime
-import muter
+
 
 client = commands.Bot(command_prefix='??')
 mutes = []
 badWords = ["buzi", "kurva", "fasz", "rohadék", "geci"]
 log_channel = client.get_channel(831509478427328522)
+guild = client.get_guild(831444546054389760)
 
 @client.event
 async def on_ready():
     print("Bot is ready!")
-    global log_channel, mutes
-    print(client.get_all_members())
+    global log_channel, mutes, guild
+    for member in guild.server.members:
+        print(member.name)
     log_channel = client.get_channel(831509478427328522)
     await log_channel.send("teszt")
 
