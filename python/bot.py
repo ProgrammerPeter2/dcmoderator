@@ -23,7 +23,6 @@ async def on_message(message):
     user = message.author
     words = message.content.lower().split(chr(32))
     global badWords, mutes
-    print(user, user.name)
     for us in mutes:
         if us[0] == user:
             if us[1] != "":
@@ -41,7 +40,6 @@ async def on_message(message):
                 badWord_timer += 60
                 badword = word
         if isBadWord:
-            badWord_counter += 1
             if not badword in bad_words:
                 bad_words.append(badword)
             if not is_bad_word:
@@ -51,7 +49,7 @@ async def on_message(message):
         embed.set_author(name="Moderátor riasztás", icon_url=user.avatar_url)
         embed.add_field(name="Felhasználó:", value=user.name)
         embed.add_field(name="Üzenet:", value=message.content)
-        embed.add_field(name="Csúnya szavak száma:", value=str(badWord_counter))
+        embed.add_field(name="Csúnya szavak száma:", value=str(badWord_timer//60))
         embed.add_field(name="Csúnya szavak:", value=str(bad_words))
         mutecal.calculate(user,datetime.datetime.now(), badWord_timer)
         await log_channel.send(embed=embed)
