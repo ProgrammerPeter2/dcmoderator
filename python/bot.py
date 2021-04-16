@@ -17,6 +17,7 @@ async def on_ready():
     global log_channel, mutes
     for member in client.get_all_members():
         print(member)
+    log_channel = client.get_channel(831509478427328522)
     await log_channel.send("teszt")
 
 @client.event
