@@ -27,7 +27,5 @@ def calculate(user, date, mutetime):
     elif mutesec > 60:
         mutemin = (mutesec // 60)
         mutesec = mutesec - (mutemin * 60)
-    print(mutemin)
     muted_date = datetime(date.year, date.month, date.day, hour, mutemin, mutesec)
-    mute, index = getMuteData(user)
-    print(mute[index])
+    return muted_date
