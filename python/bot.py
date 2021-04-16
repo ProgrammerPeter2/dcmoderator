@@ -23,11 +23,12 @@ async def on_message(message):
     user = message.author
     words = message.content.lower().split(chr(32))
     global badWords, mutes, log_channel
-    for us in mutes:
-        if us[0] == user:
+    for us_ind in range(len(mutes)):
+        if mutes[us_ind][0] == user:
             print(user)
             if us[1] != "":
-                await log_channel.send("Teszt!")
+                if modifier.string_date(us[1]) < datetime.datetime.now():
+                    message.delete()
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
@@ -56,6 +57,10 @@ async def on_message(message):
         await log_channel.send(embed=embed)
         await channel.send(f"{user.name} Ne beszélj csúnyán!")
         await message.delete()
+        for us_ind in range(len(mutes)):
+            if mutes[us_ind][0] == user:
+                mutes[us_ind][1] = modifier.date_string(message.created_at)
+            
 
 @client.command()
 async def test(ctx):
