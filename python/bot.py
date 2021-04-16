@@ -6,7 +6,7 @@ import datetime
 
 
 client = commands.Bot(command_prefix='??')
-mutes = [["peter horváth#1279", ""]]
+mutes = [["peter horváth#1279", "2021-04-16 14:00:00"]]
 badWords = ["buzi", "kurva", "fasz", "rohadék", "geci"]
 log_channel = client.get_channel(831509478427328522)
 
