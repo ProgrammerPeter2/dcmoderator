@@ -9,19 +9,20 @@ import muter
 client = commands.Bot(command_prefix='??')
 mutes = []
 badWords = ["buzi", "kurva", "fasz", "rohadék", "geci"]
+log_channel = client.get_channel(831509478427328522)
 
 @client.event
 async def on_ready():
     print("Bot is ready!")
-    log_channel = client.get_channel(831509478427328522)
-    msg = "A program indítása: " + modifier.date_string() + "\n verzió: " + os.getenv("version")
+    global log_channel, mutes
+    for member in client.get_all_members():
+        print(member)
     await log_channel.send("teszt")
 
 @client.event
 async def on_message(message):
     channel = message.channel
     user = message.author
-    log_channel = client.get_channel(831509478427328522)
     words = message.content.lower().split(chr(32))
     global badWords
     is_bad_word = False
@@ -53,7 +54,6 @@ async def on_message(message):
         await log_channel.send(embed=embed)
         await channel.send(f"{user.name} Ne beszélj csúnyán!")
         await message.delete()
-        _muter = muter.Muter(client, user, badWord_timer)
 
 @client.command()
 async def test(ctx):
