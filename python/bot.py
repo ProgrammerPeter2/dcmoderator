@@ -22,12 +22,12 @@ async def on_message(message):
     channel = message.channel
     user = message.author
     words = message.content.lower().split(chr(32))
-    global badWords, mutes
+    global badWords, mutes, log_channel
     for us in mutes:
         if us[0] == user:
             print(user)
             if us[1] != "":
-                print("Non problem!", us[1])
+                await log_channel.send("Teszt!")
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
