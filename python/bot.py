@@ -6,7 +6,7 @@ import datetime
 
 
 client = commands.Bot(command_prefix='??')
-mutes = [{"peter horváth", ""}]
+mutes = [{"peter horváth#1279", ""}]
 badWords = ["buzi", "kurva", "fasz", "rohadék", "geci"]
 log_channel = client.get_channel(831509478427328522)
 
@@ -24,8 +24,9 @@ async def on_message(message):
     words = message.content.lower().split(chr(32))
     global badWords, mutes
     print(user, user.name)
-    if type(mutes[user.name]) == "":
-        print(mutes[user.name])
+    for user in mutes:
+        if user[user] == "":
+            print(user, user.name)
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
