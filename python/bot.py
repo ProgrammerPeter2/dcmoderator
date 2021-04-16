@@ -6,17 +6,14 @@ import datetime
 
 
 client = commands.Bot(command_prefix='??')
-mutes = []
+mutes = [{"peter horváth", None}]
 badWords = ["buzi", "kurva", "fasz", "rohadék", "geci"]
 log_channel = client.get_channel(831509478427328522)
-guild = client.get_guild(831444546054389760)
 
 @client.event
 async def on_ready():
     print("Bot is ready!")
-    global log_channel, mutes, guild
-    for member in guild.server.members:
-        print(member.name)
+    global log_channel
     log_channel = client.get_channel(831509478427328522)
     await log_channel.send("teszt")
 
@@ -25,7 +22,9 @@ async def on_message(message):
     channel = message.channel
     user = message.author
     words = message.content.lower().split(chr(32))
-    global badWords
+    global badWords, mutes
+    if type(mutes[user]) == "<class datetime>":
+        print(mutes[user])
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
