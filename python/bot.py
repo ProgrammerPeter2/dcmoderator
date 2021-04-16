@@ -26,7 +26,7 @@ async def on_message(message):
     for us in mutes:
         if us[0] == user:
             if us[1] != "":
-                print(us[1])
+                print("Non problem!")
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
