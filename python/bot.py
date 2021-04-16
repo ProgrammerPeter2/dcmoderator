@@ -7,6 +7,8 @@ import datetime
 import muter
 
 client = commands.Bot(command_prefix='??')
+mutes = []
+badWords = ["buzi", "kurva", "fasz", "rohadék", "geci"]
 
 @client.event
 async def on_ready():
@@ -21,7 +23,7 @@ async def on_message(message):
     user = message.author
     log_channel = client.get_channel(831509478427328522)
     words = message.content.lower().split(chr(32))
-    badWords = ["buzi", "kurva", "fasz", "rohadék", "geci"]
+    global badWords
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
