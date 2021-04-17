@@ -6,7 +6,7 @@ import datetime
 
 
 client = commands.Bot(command_prefix='??')
-mutes = [["peter horváth#1279", "2021-04-16 14:00:00"]]
+mutes = open("datas/mutes.txt", "r", encoding="utf8").read().split(",")
 badWords = ["buzi", "kurva", "fasz", "rohadék", "geci"]
 log_channel = client.get_channel(831509478427328522)
 
@@ -23,6 +23,7 @@ async def on_message(message):
     user = message.author
     words = message.content.lower().split(chr(32))
     global badWords, mutes, log_channel
+    print(mutes)
     for us_ind in range(len(mutes)):
         if mutes[us_ind][0] == user:
             if mutes[us_ind][1] != "":
@@ -56,14 +57,5 @@ async def on_message(message):
         await log_channel.send(embed=embed)
         await channel.send(f"{user.name} Ne beszélj csúnyán!")
         await message.delete()
-        for us_ind in range(len(mutes)):
-            if mutes[us_ind][0] == user:
-                mutes[us_ind][1] = modifier.date_string(message.created_at)
-            
-
-@client.command()
-async def test(ctx):
-    print("Teszt!")
-    await ctx.send("Hi! This is a test!")
 
 client.run("ODEyMzM2MDMwMjI5MjAwOTA2.YC_Q4g.Bcj8mWFC4db7yxN1PNC3wMoXKBM")
