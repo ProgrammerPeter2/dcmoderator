@@ -7,8 +7,7 @@ import json
 
 client = commands.Bot(command_prefix='??')
 mutes = []
-mutes_file = open("datas/mutes.txt", "r+", encoding="utf8")
-badWords = open("datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
+badWords = open("app/python/datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
 log_channel = client.get_channel(831509478427328522)
 guild = client.get_guild(831444546054389760)
 
@@ -25,7 +24,7 @@ async def on_message(message):
     channel = message.channel
     user = message.author
     words = message.content.lower().split(chr(32))
-    global badWords, mutes, log_channel, mutes_file
+    global badWords, mutes, log_channel
     mutes = open("/app/python/datas/mutes.txt", "r", encoding="utf8").read().replace("\n", "").split(",")
     mute = False
     for i in range(0, len(mutes), 2):
