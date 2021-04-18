@@ -26,7 +26,7 @@ async def on_message(message):
     user = message.author
     words = message.content.lower().split(chr(32))
     global badWords, mutes, log_channel, mutes_file
-    mutes = open("datas/mutes.txt", "r", encoding="utf8").read().replace("\n", "").split(",")
+    mutes = open("/app/python/datas/mutes.txt", "r", encoding="utf8").read().replace("\n", "").split(",")
     mute = False
     for i in range(0, len(mutes), 2):
         if user.name == mutes[i] and not mutes[i+1] == "":
@@ -57,14 +57,14 @@ async def on_message(message):
             embed.add_field(name="Üzenet:", value=message.content)
             embed.add_field(name="Csúnya szavak száma:", value=str(badWord_counter))
             embed.add_field(name="Csúnya szavak:", value=str(bad_words))
-            config = json.load(open("datas/config.json", "r"))["badWordTime"]
+            config = json.load(open("/app/python/datas/config.json", "r"))["badWordTime"]
             mutedate = mutedate_cal.calculate(datetime.datetime.now(), (config * badWord_counter))
             for i in range(0, len(mutes), 2):
                 if mutes[i] == user.name:
                     mutes[i + 1] = modifier.date_string(mutedate)
             print(mutes)
             print("List to text:",modifier.listToText(mutes, ","))
-            open("datas/mutes.txt", "w", encoding="utf8").write(modifier.listToText(mutes, ","))
+            open("/app/python/datas/mutes.txt", "w", encoding="utf8").write(modifier.listToText(mutes, ","))
             await log_channel.send(embed=embed)
             await channel.send(f"{user.name} Ne beszélj csúnyán!")
             await message.delete()
