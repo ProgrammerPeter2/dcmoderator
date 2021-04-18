@@ -29,12 +29,25 @@ def date_string(date = datetime.now()):
 
 def string_date(str: str):
     elements = str.split(" ")
-    date = elements[0].split("-")
-    time = elements[1].split(":")
+    dateindex = 0
+    if len(elements) == 3 and (elements[0] == "" or elements[0] == chr(32)):
+        dateindex = 1
+    datesplit = "."
+    if not "." in elements[dateindex] and "-" in elements[dateindex]:
+        datesplit = "-"
+    date = elements[dateindex].split(datesplit)
+    time = elements[dateindex+1].split(":")
     year = int(date[0])
     month = int(date[1])
     day = int(date[2])
     hour = int(time[0])
     minute = int(time[1])
-    day = int(time[2])
-    return datetime(year,month,day,hour,minute,day)
+    seconds = int(time[2])
+    return datetime(year, month, day, hour, minute, seconds)
+
+def listToText(list, char):
+    outstring = list[0]
+    for li in range(1, len(list)):
+        text = list[li] + char
+        outstring += text
+    return outstring

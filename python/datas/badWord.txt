@@ -1,0 +1,5 @@
+kurva,
+buzi,
+fasz,
+rohadék,
+geci
