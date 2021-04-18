@@ -8,7 +8,7 @@ import json
 
 client = commands.Bot(command_prefix='??')
 mutes = []
-badWords = open("datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
+badWords = open("/app/python/datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
 log_channel = client.get_channel(831509478427328522)
 guild = client.get_guild(831444546054389760)
 
@@ -19,7 +19,7 @@ async def on_ready():
     guild = client.get_guild(831444546054389760)
     log_channel = client.get_channel(831509478427328522)
     await log_channel.send("teszt")
-    for i in open("datas/users.txt", "r", encoding="utf8").read().split(",\n"):
+    for i in open("/app/python/datas/users.txt", "r", encoding="utf8").read().split(",\n"):
         userList = [i, ""]
         mutes.append(userList)
     print(mutes)
@@ -66,7 +66,7 @@ async def on_message(message):
             embed.add_field(name="Üzenet:", value=message.content)
             embed.add_field(name="Csúnya szavak száma:", value=str(badWord_counter))
             embed.add_field(name="Csúnya szavak:", value=str(bad_words))
-            config = json.load(open("datas/config.json", "r"))["badWordTime"]
+            config = json.load(open("/app/python/datas/config.json", "r"))["badWordTime"]
             mutedate = mutedate_cal.calculate(datetime.datetime.now(), (config * badWord_counter))
             for i in range(0, len(mutes)):
                 if mutes[i][0] == user.name:
