@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import discord.message
 import modifier
 import datetime
 import mutedate_cal
@@ -7,17 +8,21 @@ import json
 
 client = commands.Bot(command_prefix='??')
 mutes = []
-badWords = open("/app/python/datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
+badWords = open("datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
 log_channel = client.get_channel(831509478427328522)
 guild = client.get_guild(831444546054389760)
 
 @client.event
 async def on_ready():
     print("Bot is ready!")
-    global log_channel, guild
+    global log_channel, guild, mutes
     guild = client.get_guild(831444546054389760)
     log_channel = client.get_channel(831509478427328522)
     await log_channel.send("teszt")
+    for i in open("datas/users.txt", "r", encoding="utf8").read().split(",\n"):
+        userList = [i, ""]
+        mutes.append(userList)
+    print(mutes)
 
 @client.event
 async def on_message(message):
@@ -25,13 +30,18 @@ async def on_message(message):
     user = message.author
     words = message.content.lower().split(chr(32))
     global badWords, mutes, log_channel
-    mutes = open("/app/python/datas/mutes.txt", "r", encoding="utf8").read().replace("\n", "").split(",")
     mute = False
-    for i in range(0, len(mutes), 2):
-        if user.name == mutes[i] and not mutes[i+1] == "":
-            if modifier.string_date(mutes[i+1]) < datetime.datetime.now():
-                await message.delete()
+    for i in range(0, len(mutes)):
+        if user.name == mutes[i][0] and not mutes[i][1] == "":
+            if modifier.string_date(mutes[i][1]) > datetime.datetime.now():
+                try:
+                    await message.delete()
+                except:
+                    pass
                 mute = True
+            elif modifier.string_date(mutes[i][1]) <= datetime.datetime.now():
+                mutes[i][1] = ""
+                print(mutes[i])
     if not mute:
         is_bad_word = False
         bad_words = list()
@@ -40,7 +50,7 @@ async def on_message(message):
             badword = ""
             isBadWord = False
             for badWord in badWords:
-                if word == badWord:
+                if badWord in word:
                     isBadWord = True
                     badWord_counter += 1
                     badword = word
@@ -56,16 +66,17 @@ async def on_message(message):
             embed.add_field(name="Üzenet:", value=message.content)
             embed.add_field(name="Csúnya szavak száma:", value=str(badWord_counter))
             embed.add_field(name="Csúnya szavak:", value=str(bad_words))
-            config = json.load(open("/app/python/datas/config.json", "r"))["badWordTime"]
+            config = json.load(open("datas/config.json", "r"))["badWordTime"]
             mutedate = mutedate_cal.calculate(datetime.datetime.now(), (config * badWord_counter))
-            for i in range(0, len(mutes), 2):
-                if mutes[i] == user.name:
-                    mutes[i + 1] = modifier.date_string(mutedate)
-            print(mutes)
-            print("List to text:",modifier.listToText(mutes, ","))
-            open("/app/python/datas/mutes.txt", "w", encoding="utf8").write(modifier.listToText(mutes, ","))
+            for i in range(0, len(mutes)):
+                if mutes[i][0] == user.name:
+                    mutes[i][1] = modifier.date_string(mutedate)
             await log_channel.send(embed=embed)
             await channel.send(f"{user.name} Ne beszélj csúnyán!")
-            await message.delete()
+            await user.send(f"{user.name} {badWord_counter * config} másodpercre némítva lettél!")
+            try:
+                await message.delete()
+            except:
+                pass
 
 client.run("ODEyMzM2MDMwMjI5MjAwOTA2.YC_Q4g.Bcj8mWFC4db7yxN1PNC3wMoXKBM")

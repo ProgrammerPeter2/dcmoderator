@@ -16,4 +16,5 @@ def calculate(date: datetime, mutetime):
             mutesec -= 60
         print(mutesec, mutemin)
     muted_date = datetime(date.year, date.month, date.day, hour, mutemin, mutesec)
+    print(muted_date)
     return muted_date
