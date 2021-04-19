@@ -1,0 +1,14 @@
+{
+  "Mark Lantos 11":{
+    "roles": ["rendszergazda", "operatőr", "feljlesztő"]
+  },
+  "Nagy Dániel": {
+    "roles": ["admin", "operatőr", "vezető"]
+  },
+  "peter horváth": {
+    "roles": ["rendszergazda"]
+  },
+  "testfelhasználó11": {
+    "roles": ["rang nélkül"]
+  }
+}
