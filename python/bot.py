@@ -25,6 +25,13 @@ async def on_ready():
     print(mutes)
 
 @client.event
+async def on_member_join(member):
+    global mutes
+    await member.send(f"Üdv. a csapatban {member.name}!")
+    userList = [member.name, ""]
+    mutes.append(userList)
+    open("/app/python/datas/users.txt", "w", encoding="utf8").write(modifier.listToText(mutes, ","))
+@client.event
 async def on_message(message):
     channel = message.channel
     user = message.author
