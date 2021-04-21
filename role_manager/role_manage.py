@@ -6,20 +6,23 @@ import json
 
 client = commands.Bot(command_prefix="~")
 guild = client.get_guild(831444546054389760)
+config = json.load(open("/app/datas/config.json", "r", encoding="utf8"))
+userDatas = json.load(open("/app/datas/users.json", "r", encoding="utf8"))
 
 @client.event
 async def on_ready():
+    global config, userDatas, guild
+    guild = client.get_guild(831444546054389760)
+    os.chdir("datas")
     print("ready!")
 
 @client.command()
 async def start_manage(ctx):
     log_channel = client.get_channel(831509478427328522)
     global guild
-    guild = client.get_guild(831444546054389760)
     await log_channel.send("Role system is running!")
-    os.chdir("../datas")
-    config = json.load(open("config.json", "r", encoding="utf8"))
-    userDatas = json.load(open("users.json", "r", encoding="utf8"))
+    config = json.load(open("/app/datas/config.json", "r", encoding="utf8"))
+    userDatas = json.load(open("/app/datas/users.json", "r", encoding="utf8"))
     while not client.is_closed():
         with open("mutes.txt", "r", encoding="utf8") as file:
             content = file.read().split(",")
@@ -52,4 +55,10 @@ async def start_manage(ctx):
                                 add_text = c + ","
                                 text += add_text
                             file.write(text)
+
+@client.command()
+async def get_content(ctx):
+    with open("mutes.txt", "r", encoding="utf8") as file:
+        await ctx.send(file.read())
+
 client.run("ODMzNjc0OTQyNDAyNzg5NDE3.YH1ySw.FEUwu-AiKAU12xsbZLWKlitUsa4")
