@@ -1,2 +1,1 @@
-worker: python bot.py,
-worker: python role_manager/role_manage.py
+worker: python bot.py & python role_manager/role_manage.py
