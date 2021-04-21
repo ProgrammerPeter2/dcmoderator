@@ -6,11 +6,11 @@ def get_connection(host, user, password, db):
     try:
         mydb = connector.connect(host=host, user=user, password=password, database=db)
     except connector.Error:
-        print(format(connector.Error))
+        print(connector.Error)
     return mydb
 
-base_conn = get_connection("http://mysql.atw.hu", "raszpi", "Peti?20!", "raszpi")
-print(type(base_conn))
+base_conn = get_connection("https://freedb.tech/", "freedbtech_mute", "mutes", "freedbtech_mutes")
+
 def make_columnsText(columns: list, chars: str):
     columnsText = columns[0] + chars
     for c in range(1, (len(columns) - 1)):

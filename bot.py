@@ -5,15 +5,13 @@ from moderator import modifier
 import datetime
 from moderator import mutedate_cal
 import json
-from role_manage import role_manage
-
-client = commands.Bot(command_prefix='??')
+client = commands.Bot(command_prefix='/')
 mutes = []
 import os
-print(os.listdir(os.getcwd()), os.getcwd())
+os.chdir("..")
 path = "\datas"
-badWords = open("/datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
-config = json.load(open("/datas/config.json", "r", encoding="utf8"))
+badWords = open("datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
+config = json.load(open("datas/config.json", "r", encoding="utf8"))
 log_channel = client.get_channel(831509478427328522)
 guild = client.get_guild(831444546054389760)
 
@@ -23,7 +21,6 @@ async def on_ready():
     global log_channel, guild, config, mutes
     guild = client.get_guild(831444546054389760)
     log_channel = client.get_channel(831509478427328522)
-    client.load_extension("role_manage.role_manage")
     await log_channel.send("teszt")
 
 @client.event
@@ -35,6 +32,15 @@ async def on_message(message: Message):
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
+    try:
+        member = await guild.fetch_member(user.id)
+        if guild.get_role(config["roles"]["némítva"]) in member.roles:
+            try:
+                await message.delete()
+            except:
+                pass
+    except:
+        pass
     for word in words:
         badword = ""
         isBadWord = False
@@ -57,7 +63,9 @@ async def on_message(message: Message):
         embed.add_field(name="Csúnya szavak:", value=str(bad_words))
         badWordTimer = config["badWordTime"]
         mutedate = mutedate_cal.calculate(datetime.datetime.now(), (badWordTimer * badWord_counter))
-        mutes.append([user.name, modifier.date_string(mutedate)])
+        mutetext = "," + str(user.id) + "," + modifier.date_string(mutedate)
+        with open("datas/mutes.txt", "a", encoding="utf8") as file:
+            file.write(mutetext)
         for r in user.roles:
             try:
                 await user.remove_roles(r)
@@ -72,5 +80,4 @@ async def on_message(message: Message):
             await message.delete()
         except:
             pass
-
 client.run("ODEyMzM2MDMwMjI5MjAwOTA2.YC_Q4g.Bcj8mWFC4db7yxN1PNC3wMoXKBM")
