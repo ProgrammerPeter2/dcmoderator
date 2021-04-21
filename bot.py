@@ -10,8 +10,8 @@ mutes = []
 import os
 os.chdir("..")
 path = "\datas"
-badWords = open("datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
-config = json.load(open("datas/config.json", "r", encoding="utf8"))
+badWords = open("/app/datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
+config = json.load(open("/app/datas/config.json", "r", encoding="utf8"))
 log_channel = client.get_channel(831509478427328522)
 guild = client.get_guild(831444546054389760)
 
@@ -64,7 +64,7 @@ async def on_message(message: Message):
         badWordTimer = config["badWordTime"]
         mutedate = mutedate_cal.calculate(datetime.datetime.now(), (badWordTimer * badWord_counter))
         mutetext = "," + str(user.id) + "," + modifier.date_string(mutedate)
-        with open("datas/mutes.txt", "a", encoding="utf8") as file:
+        with open("/app/datas/mutes.txt", "a", encoding="utf8") as file:
             file.write(mutetext)
         for r in user.roles:
             try:
