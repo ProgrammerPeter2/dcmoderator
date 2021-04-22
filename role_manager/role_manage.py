@@ -24,7 +24,8 @@ async def on_ready():
     os.chdir("datas")
     print("Role system is ready for work!")
 
-async def start_manage():
+@client.event
+async def on_ready():
     global config, guild, roles, log_channel, client
     guild = client.get_guild(831444546054389760)
     moderator = guild.get_role(config["roles"]["moderátor"])

@@ -77,4 +77,5 @@ async def on_message(message: Message):
             await message.delete()
         except:
             pass
+
 client.run("ODEyMzM2MDMwMjI5MjAwOTA2.YC_Q4g.Bcj8mWFC4db7yxN1PNC3wMoXKBM")

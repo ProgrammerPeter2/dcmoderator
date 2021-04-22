@@ -1,4 +1,3 @@
-
 mutes = []
 
 def get_mutes():
