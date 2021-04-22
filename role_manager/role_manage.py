@@ -25,7 +25,7 @@ async def on_ready():
     print("Role system is ready for work!")
 
 async def start_manage():
-    global config, userDatas, guild, roles, log_channel, client
+    global config, guild, roles, log_channel, client
     guild = client.get_guild(831444546054389760)
     moderator = guild.get_role(config["roles"]["moderátor"])
     rendszergazda = guild.get_role(config["roles"]["rendszergazda"])
