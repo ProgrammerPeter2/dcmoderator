@@ -66,13 +66,10 @@ async def on_message(message: Message):
         mutetext = "," + str(user.id) + "," + modifier.date_string(mutedate)
         with open("/app/datas/mutes.txt", "a", encoding="utf8") as file:
             file.write(mutetext)
-        for r in user.roles:
-            try:
-                await user.remove_roles(r)
-            except:
-                pass
-        role = guild.get_role(config["roles"]["némítva"])
-        await user.add_roles(role)
+        speakrole = guild.get_role(config["roles"]["beszélhet"])
+        muterole = guild.get_role(config["roles"]["némítva"])
+        await user.add_roles(muterole)
+        await user.remove_roles(speakrole)
         await log_channel.send(embed=embed)
         await channel.send(f"{user.name} Ne beszélj csúnyán!")
         await user.send(f"{user.name} {badWord_counter * badWordTimer} másodpercre némítva lettél!")

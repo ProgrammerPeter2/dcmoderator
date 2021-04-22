@@ -31,17 +31,8 @@ async def start_manage(ctx):
                 if modifier.string_date(content[cind+1]) < datetime.datetime.now():
                     uid = int(content[cind])
                     member = await guild.fetch_member(uid)
-                    roles = userDatas[member.name]["roles"]
                     await member.remove_roles(guild.get_role(config["roles"]["némítva"]))
                     await member.add_roles(guild.get_role(config["roles"]["beszélhet"]))
-                    if not guild.get_role(config["roles"]["rendszergazda"]) in member.roles:
-                        for role in roles:
-                            if not role in member.roles:
-                                add_role = guild.get_role(config["roles"][role])
-                                try:
-                                    await member.add_roles(add_role)
-                                except Exception:
-                                    pass
                     if len(content) <= 3:
                         content.clear()
                     else:
