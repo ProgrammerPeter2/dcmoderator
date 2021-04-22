@@ -77,5 +77,4 @@ async def clear(ctx):
         await ctx.send(f"{ctx.author.mention}! Nem tudod törölni a némítástokat, mivel nincsen jogosultságod!")
         await log_channel.send(f"{ctx.author.name} megpróbálta törölni a némításokat de nem volt jogosultsága hozzá!")
 
-client.loop.create_task(start_manage())
 client.run("ODMzNjc0OTQyNDAyNzg5NDE3.YH1ySw.FEUwu-AiKAU12xsbZLWKlitUsa4")
