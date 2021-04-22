@@ -9,22 +9,24 @@ client = commands.Bot(command_prefix="~")
 guild = client.get_guild(831444546054389760)
 config = json.load(open("/app/datas/config.json", "r", encoding="utf8"))
 userDatas = json.load(open("/app/datas/users.json", "r", encoding="utf8"))
+log_channel = client.get_channel(831509478427328522)
 roles = []
+
 @client.event
 async def on_ready():
-    global config, userDatas, guild, roles
+    global config, userDatas, guild, roles, log_channel
     guild = client.get_guild(831444546054389760)
     moderator = guild.get_role(config["roles"]["moderátor"])
     rendszergazda = guild.get_role(config["roles"]["rendszergazda"])
     roles.append(moderator)
+    log_channel = client.get_channel(831509478427328522)
     roles.append(rendszergazda)
     os.chdir("datas")
-    print("ready!")
+    print("Role system is ready for work!")
 
 @client.command()
 async def start_manage(ctx):
-    log_channel = client.get_channel(831509478427328522)
-    global guild
+    global guild, log_channel
     await log_channel.send("Role system is running!")
     config = json.load(open("/app/datas/config.json", "r", encoding="utf8"))
     while not client.is_closed():
