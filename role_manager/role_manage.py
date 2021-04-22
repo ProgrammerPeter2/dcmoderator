@@ -24,9 +24,9 @@ async def on_ready():
     os.chdir("datas")
     print("Role system is ready for work!")
 
-@client.command()
-async def start_manage(ctx):
+async def start_manage():
     global guild, log_channel
+    await client.wait_until_ready()
     await log_channel.send("Role system is running!")
     config = json.load(open("/app/datas/config.json", "r", encoding="utf8"))
     while not client.is_closed():
@@ -69,4 +69,6 @@ async def clear(ctx):
     else:
         await ctx.send(f"{ctx.author.mention}! Nem tudod törölni a némítástokat, mivel nincsen jogosultságod!")
         await log_channel.send(f"{ctx.author.name} megpróbálta törölni a némításokat de nem volt jogosultsága hozzá!")
+
+client.loop.create_task(start_manage())
 client.run("ODMzNjc0OTQyNDAyNzg5NDE3.YH1ySw.FEUwu-AiKAU12xsbZLWKlitUsa4")
