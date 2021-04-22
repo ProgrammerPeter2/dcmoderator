@@ -71,8 +71,8 @@ async def on_message(message: Message):
         await user.add_roles(muterole)
         await user.remove_roles(speakrole)
         await log_channel.send(embed=embed)
-        await channel.send(f"{user.name} Ne beszélj csúnyán!")
-        await user.send(f"{user.name} {badWord_counter * badWordTimer} másodpercre némítva lettél!")
+        await channel.send(f"{user.mention} Ne beszélj csúnyán!")
+        await user.send(f"{user.mention} {badWord_counter * badWordTimer} másodpercre némítva lettél!")
         try:
             await message.delete()
         except:
