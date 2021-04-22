@@ -12,17 +12,17 @@ userDatas = json.load(open("/app/datas/users.json", "r", encoding="utf8"))
 log_channel = client.get_channel(831509478427328522)
 roles = []
 
-@client.event
-async def on_ready():
-    global config, userDatas, guild, roles, log_channel
-    guild = client.get_guild(831444546054389760)
-    moderator = guild.get_role(config["roles"]["moderátor"])
-    rendszergazda = guild.get_role(config["roles"]["rendszergazda"])
-    roles.append(moderator)
-    log_channel = client.get_channel(831509478427328522)
-    roles.append(rendszergazda)
-    os.chdir("datas")
-    print("Role system is ready for work!")
+#@client.event
+#async def on_ready():
+    #global config, userDatas, guild, roles, log_channel
+    #guild = client.get_guild(831444546054389760)
+    #moderator = guild.get_role(config["roles"]["moderátor"])
+    #rendszergazda = guild.get_role(config["roles"]["rendszergazda"])
+    #roles.append(moderator)
+    #log_channel = client.get_channel(831509478427328522)
+    #roles.append(rendszergazda)
+    #os.chdir("datas")
+    #print("Role system is ready for work!")
 
 @client.event
 async def on_ready():
