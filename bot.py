@@ -5,8 +5,9 @@ from moderator import modifier
 import datetime
 from moderator import mutedate_cal
 import json
+from moderator import mutes
+
 client = commands.Bot(command_prefix='/')
-mutes = []
 import os
 os.chdir("..")
 path = "\datas"
@@ -28,7 +29,7 @@ async def on_message(message: Message):
     channel = message.channel
     user = message.author
     words = message.content.lower().split(chr(32))
-    global badWords, mutes, log_channel, config, guild
+    global badWords, log_channel, config, guild
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
@@ -64,8 +65,7 @@ async def on_message(message: Message):
         badWordTimer = config["badWordTime"]
         mutedate = mutedate_cal.calculate(datetime.datetime.now(), (badWordTimer * badWord_counter))
         mutetext = "," + str(user.id) + "," + modifier.date_string(mutedate)
-        with open("/app/datas/mutes.txt", "a", encoding="utf8") as file:
-            file.write(mutetext)
+        mutes.add_to_mutes(mutetext)
         speakrole = guild.get_role(config["roles"]["beszélhet"])
         muterole = guild.get_role(config["roles"]["némítva"])
         await user.add_roles(muterole)
