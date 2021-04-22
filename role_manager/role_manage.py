@@ -50,7 +50,7 @@ async def start_manage(ctx):
                     with open("mutes.txt", "w", encoding="utf8") as file:
                         if len(content) > 0:
                             file.truncate()
-                            text = ""
+                            text = ","
                             for c in content:
                                 add_text = c + ","
                                 text += add_text
