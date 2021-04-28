@@ -11,8 +11,8 @@ client = commands.Bot(command_prefix='/')
 import os
 os.chdir("..")
 path = "\datas"
-badWords = open("/app/datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
-config = json.load(open("/app/datas/config.json", "r", encoding="utf8"))
+badWords = open("datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
+config = json.load(open("datas/config.json", "r", encoding="utf8"))
 log_channel = client.get_channel(831509478427328522)
 guild = client.get_guild(831444546054389760)
 
@@ -66,6 +66,7 @@ async def on_message(message: Message):
         mutedate = mutedate_cal.calculate(datetime.datetime.now(), (badWordTimer * badWord_counter))
         mutetext = "," + str(user.id) + "," + modifier.date_string(mutedate)
         mutes.add_to_mutes(mutetext)
+        mutes.print_mutes()
         speakrole = guild.get_role(config["roles"]["beszélhet"])
         muterole = guild.get_role(config["roles"]["némítva"])
         await user.add_roles(muterole)
@@ -78,4 +79,4 @@ async def on_message(message: Message):
         except:
             pass
 
-client.run("ODEyMzM2MDMwMjI5MjAwOTA2.YC_Q4g.Bcj8mWFC4db7yxN1PNC3wMoXKBM")
+client.run("ODM2ODkzMzA4MDEyNzI0MjU0.YIknoQ.ARQhKKk-hEnlU53qK0yY8rXI59A")

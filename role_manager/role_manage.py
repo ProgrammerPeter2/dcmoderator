@@ -7,8 +7,9 @@ import json
 
 client = commands.Bot(command_prefix="~")
 guild = client.get_guild(831444546054389760)
-config = json.load(open("/app/datas/config.json", "r", encoding="utf8"))
-userDatas = json.load(open("/app/datas/users.json", "r", encoding="utf8"))
+os.chdir("..")
+config = json.load(open("datas/config.json", "r", encoding="utf8"))
+userDatas = json.load(open("datas/users.json", "r", encoding="utf8"))
 log_channel = client.get_channel(831509478427328522)
 roles = []
 
@@ -35,7 +36,7 @@ async def on_ready():
     roles.append(rendszergazda)
     await client.wait_until_ready()
     await log_channel.send("Role system is running!")
-    config = json.load(open("/app/datas/config.json", "r", encoding="utf8"))
+    config = json.load(open("datas/config.json", "r", encoding="utf8"))
     while not client.is_closed():
         content = mutes.get_mutes()
         if len(content) >= 3:
@@ -45,6 +46,7 @@ async def on_ready():
                     member = await guild.fetch_member(uid)
                     await member.remove_roles(guild.get_role(config["roles"]["némítva"]))
                     await member.add_roles(guild.get_role(config["roles"]["beszélhet"]))
+                    print(content)
                     if len(content) <= 3:
                         content.clear()
                     else:
@@ -77,4 +79,4 @@ async def clear(ctx):
         await ctx.send(f"{ctx.author.mention}! Nem tudod törölni a némítástokat, mivel nincsen jogosultságod!")
         await log_channel.send(f"{ctx.author.name} megpróbálta törölni a némításokat de nem volt jogosultsága hozzá!")
 
-client.run("ODMzNjc0OTQyNDAyNzg5NDE3.YH1ySw.FEUwu-AiKAU12xsbZLWKlitUsa4")
+client.run("ODM2ODkzODM1NDA1NDI2NzA4.YIkoHw.ZqYCWlklgpK4fJJzve5WlXShyGs")
