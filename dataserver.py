@@ -26,3 +26,5 @@ def on_new_client(client: socket.socket, address):
             if not msg[0] == "":
                 if not int(msg[0]) >= len(mutes) - 1:
                     mutes.pop[int(msg[0])]
+        elif command.lower().strip() == "clear":
+            mutes.clear()
