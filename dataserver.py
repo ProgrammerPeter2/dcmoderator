@@ -1,7 +1,7 @@
 import socket
 
 mutes = []
-def on_new_client(client: socket.socket, address):
+def on_new_client(client: socket.socket):
     global mutes
     while True:
         msg = client.recv(1024).decode()
