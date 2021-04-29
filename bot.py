@@ -8,8 +8,6 @@ import json
 from moderator import mutes
 
 client = commands.Bot(command_prefix='/')
-import os
-os.chdir("..")
 path = "\datas"
 badWords = open("datas/badWord.txt", "r", encoding="utf8").read().split(",\n")
 config = json.load(open("datas/config.json", "r", encoding="utf8"))

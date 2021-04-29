@@ -8,8 +8,9 @@ import json
 client = commands.Bot(command_prefix="~")
 guild = client.get_guild(831444546054389760)
 os.chdir("..")
-config = json.load(open("datas/config.json", "r", encoding="utf8"))
-userDatas = json.load(open("datas/users.json", "r", encoding="utf8"))
+os.chdir("datas")
+config = json.load(open("config.json", "r", encoding="utf8"))
+userDatas = json.load(open("users.json", "r", encoding="utf8"))
 log_channel = client.get_channel(831509478427328522)
 roles = []
 
@@ -36,7 +37,7 @@ async def on_ready():
     roles.append(rendszergazda)
     await client.wait_until_ready()
     await log_channel.send("Role system is running!")
-    config = json.load(open("datas/config.json", "r", encoding="utf8"))
+    config = json.load(open("config.json", "r", encoding="utf8"))
     while not client.is_closed():
         content = mutes.get_mutes()
         if len(content) >= 3:
