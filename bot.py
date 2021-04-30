@@ -1,11 +1,11 @@
 import discord
 from discord.ext import commands
 from discord.message import Message
-from moderator import modifier
+from libs import modifier
 import datetime
-from moderator import mutedate_cal
+from libs import mutedate_cal
 import json
-from moderator import mutes
+from libs import mutes
 
 client = commands.Bot(command_prefix='/')
 path = "\datas"
