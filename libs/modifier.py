@@ -51,3 +51,14 @@ def listToText(list, char):
         text = list[li] + char
         outstring += text
     return outstring
+
+def getDictintFromList(list: list, key):
+    value = 0
+    for dic in list:
+        try:
+            test = dic[key]
+            value = test[key]
+            break
+        except Exception:
+            continue
+    return value

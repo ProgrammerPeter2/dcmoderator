@@ -13,5 +13,13 @@ def calculate(date: datetime, mutetime):
         mutemin += (mutesec // 60)
         while mutesec >= 60:
             mutesec -= 60
+    if mutemin == 60:
+        mutemin = 0
+        hour += 1
+    elif mutemin > 60:
+        print(mutemin, hour)
+        hour += (mutesec // 60)
+        while mutesec >= 60:
+            mutesec -= 60
     muted_date = datetime(date.year, date.month, date.day, hour, mutemin, mutesec)
     return muted_date

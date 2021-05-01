@@ -8,7 +8,7 @@ def get_connection(host, user, password, db):
         pass
     return mydb
 
-base_conn = get_connection("db4free.net", "rootadmin07", "1234abcd", "dcmoderation")
+base_conn = get_connection("remotemysql.com", "LMhwjDOQr9", "3f6BcFm6if", "LMhwjDOQr9")
 
 def make_columnsText(columns: list, chars: str):
     columnsText = columns[0] + chars
@@ -36,17 +36,40 @@ def table_exists(table: str, conn=base_conn):
     return exists
 
 def select(table: str, columns: list, extras: str, isPrintSQL = False, conn=base_conn):
-    _columns = make_columnsText(columns, ", ")
-    if columns[0] == "*":
-        _columns = "*"
-    sql = "SELECT " + _columns + " FROM " + table + " " + extras
+    _columns = ""
+    sql = ""
+    cur = get_cursor(conn)
     ret = []
-    try:
-        cur = get_cursor(conn)
+    if table == "config":
+        sql = "select * from config"
         cur.execute(sql)
-        ret = cur.fetchall()
-    except connector.Error as err:
-        print(sql, format(err))
+        datas = cur.fetchall()
+        for d in datas:
+            key = d[0]
+            value = d[1]
+            _type = d[2]
+            if _type == "int":
+                value = int(value)
+            elif _type == "str":
+                value = str(value)
+            ret.append({key, value})
+    elif table == "badWords":
+        sql = "select * from badWords"
+        cur.execute(sql)
+        datas = cur.fetchall()
+        for d in datas:
+            ret.append(d[0])
+    else:
+        if columns[0] == "*":
+            _columns = "*"
+        else:
+            _columns = make_columnsText(columns, ", ")
+        sql = "SELECT " + _columns + " FROM " + table + " " + extras
+        try:
+            cur.execute(sql)
+            ret = cur.fetchall()
+        except connector.Error as err:
+            print(sql, format(err))
     if isPrintSQL:
         print(sql)
     return ret
