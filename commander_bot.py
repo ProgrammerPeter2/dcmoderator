@@ -44,5 +44,9 @@ async def badWords(ctx: Context):
     badWords = db_manage.select("badwords", ["*"], "")
     await ctx.channel.send("Tiltott szavak:")
     for badword in badWords:
-        await ctx.channel.send(badword)
+        word = ""
+        for w in badword:
+            if w != '(' or w != '\'' or w != ')':
+                word += w
+        await ctx.send(word)
 client.run("ODM4NDAzMjk0NDY0MTgxMjc1.YI6l6g.IInc1pZqdN92JIY-rrXHIOA8FB0")
