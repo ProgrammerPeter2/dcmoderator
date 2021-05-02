@@ -27,7 +27,7 @@ async def on_ready():
     log_channel = client.get_channel(831509478427328522)
     speakrole = guild.get_role(834391521917796372)
     muterole = guild.get_role(831484974141407264)
-    await log_channel.send("teszt")
+    await log_channel.send("Moderátorbot v1.0 elindítva ekkor: " + modifier.date_string())
     bgtest.start()
 
 @tasks.loop(seconds=1)
@@ -76,7 +76,7 @@ async def on_message(message: Message):
                 bad_words.append(badword)
             if not is_bad_word:
                 is_bad_word = True
-    if is_bad_word:
+    if is_bad_word and user.name != "moderátor-parancsok":
         mutedate = mutedate_cal.calculate(datetime.datetime.now(), badWordTime)
         mdt = modifier.date_string(mutedate)
         db_manage.insert("mutes", ["id", "uid", "mutedate"], "0, '" + str(user.id) + "' , '" + mdt + "'")
