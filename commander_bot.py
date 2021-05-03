@@ -1,7 +1,8 @@
 import discord
+import asyncio
 from discord.ext import commands
 from discord.ext.commands.context import Context
-from discord import embeds, member, channel
+from discord import embeds
 from libs import db_manage
 from libs import modifier
 
@@ -45,7 +46,7 @@ async def badWords(ctx: Context):
     for badword in badWords:
         word = ""
         for w in badword:
-            if w != '(' or w != '\'' or w != ')':
+            if w != '(' or w != '\'' or w != ')' or w != ',':
                 word += w
         await ctx.send(word)
 
@@ -53,11 +54,13 @@ async def badWords(ctx: Context):
 async def on_command_error(error, ctx:Context):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send("Nem adtad meg az összes paramétert!")
+
 @client.command()
-async def addword(ctx: Context, word):
+async def addword(ctx: Context, word=""):
     if moderatorrole in ctx.author.roles:
         if word != "":
             badWords = db_manage.select("badwords", ["*"], "")
+            print(badWords)
             if not word in badWords:
                 await ctx.send("Tiltott szó hozzáadva")
                 meanem = embeds.Embed(title="Jelentés", description=f"{ctx.author} hozzáadot egy új tiltott szót!",
@@ -69,6 +72,16 @@ async def addword(ctx: Context, word):
                 await ctx.send("Ez a szó már szerepel a listán")
         else:
             await ctx.send("Nem adtál meg szavat!")
+    else:
+        await ctx.send(f"{ctx.author.mention}! Nincs jogosultságod futtatni ezt a parancsot!")
+
+@client.command()
+async def clear(ctx: Context, limit=0):
+    if moderatorrole in ctx.author.roles:
+        if limit > 0:
+            await ctx.channel.purge(limit=limit)
+        else:
+            raise commands.MissingRequiredArgument
     else:
         await ctx.send(f"{ctx.author.mention}! Nincs jogosultságod futtatni ezt a parancsot!")
 
