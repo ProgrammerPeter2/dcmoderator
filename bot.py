@@ -76,7 +76,7 @@ async def on_message(message: Message):
                 bad_words.append(badword)
             if not is_bad_word:
                 is_bad_word = True
-    if is_bad_word and user.name != "moderátor-parancsok":
+    if is_bad_word and user.name != "moderátor-parancsok" and not "~" in message.content:
         mutedate = mutedate_cal.calculate(datetime.datetime.now(), badWordTime)
         mdt = modifier.date_string(mutedate)
         db_manage.insert("mutes", ["id", "uid", "mutedate"], "0, '" + str(user.id) + "' , '" + mdt + "'")

@@ -20,24 +20,21 @@ async def on_ready():
     print("Moderatorbot-commands was loaded!")
 
 @client.command()
+@commands.has_role(moderatorrole)
 async def get_mutes(ctx: Context):
-    global log_channel, moderatorrole
-    if moderatorrole in ctx.author.roles:
-        _channel = ctx.channel
-        await _channel.send(f"{ctx.author.mention} a némítások adatait elküldöm privátban!")
-        mutes = db_manage.select("mutes", ["*"], "")
-        if len(mutes) < 1:
-            await ctx.author.send(f"{modifier.date_string()}: Nincs egy aktív némítás sem!")
-        else:
-            for mute in mutes:
-                member = await guild.fetch_member(int(mute[1]))
-                await ctx.author.send(f"{member} némítva eddig_ {modifier}")
-        meanem = embeds.Embed(title="Jelentés", description=f"{ctx.author} lekérte az összes aktív némítást!",
-                              color=discord.colour.Color.blue())
-        meanem.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
-        await log_channel.send(embed=meanem)
+    _channel = ctx.channel
+    await _channel.send(f"{ctx.author.mention} a némítások adatait elküldöm privátban!")
+    mutes = db_manage.select("mutes", ["*"], "")
+    if len(mutes) < 1:
+        await ctx.author.send(f"{modifier.date_string()}: Nincs egy aktív némítás sem!")
     else:
-        await ctx.send(f"{ctx.author.mention}! Nincs jogosultságod futtatni ezt a parancsot!")
+        for mute in mutes:
+            member = await guild.fetch_member(int(mute[1]))
+            await ctx.author.send(f"{member} némítva eddig_ {modifier}")
+    meanem = embeds.Embed(title="Jelentés", description=f"{ctx.author} lekérte az összes aktív némítást!",
+                        color=discord.colour.Color.blue())
+    meanem.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
+    await log_channel.send(embed=meanem)
 
 @client.command()
 async def badWords(ctx: Context):
@@ -49,4 +46,30 @@ async def badWords(ctx: Context):
             if w != '(' or w != '\'' or w != ')':
                 word += w
         await ctx.send(word)
+
+@client.event
+async def on_command_error(error, ctx:Context):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Nem adtad meg az összes paramétert!")
+    elif isinstance(error, commands.MissingRole):
+        await ctx.send(f"{ctx.author.mention}! Nincs jogusultságod futtatni ezt a parancsot!")
+
+@client.command()
+@commands.has_role(moderatorrole)
+async def addword(ctx: Context, word):
+    if word != "":
+        badWords = db_manage.select("badwords", ["*"], "")
+        if not word in badWords:
+            await ctx.send("Tiltott szó hozzáadva")
+            meanem = embeds.Embed(title="Jelentés", description=f"{ctx.author} hozzáadot egy új tiltott szót!",
+                                    colour=discord.colour.Color.blue())
+            meanem.set_author(name=str(ctx.author), icon_url=ctx.author.avatar_url)
+            meanem.add_field(name="Tiltott szó:", value=word)
+            await log_channel.send(embed=meanem)
+            db_manage.insert("badwords", ["badWord"], f"{word}")
+        else:
+            await ctx.send("Ez a szó már szerepel a listán")
+    else:
+        await ctx.send("Nem adtál meg szavat!")
+
 client.run("ODM4NDAzMjk0NDY0MTgxMjc1.YI6l6g.IInc1pZqdN92JIY-rrXHIOA8FB0")
