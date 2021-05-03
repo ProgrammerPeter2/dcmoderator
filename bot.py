@@ -99,7 +99,7 @@ async def on_message(message: Message):
         await user.add_roles(muterole)
         await user.remove_roles(speakrole)
         await channel.send(f"{user.mention} Ne beszélj csúnyán!")
-        await user.send(f"{user.mention} {badWordTime} másodpercre némítva lettél!")
+        await user.send(f"{user.mention} {bwttext} némítva lettél!")
         try:
             await message.delete()
         except:

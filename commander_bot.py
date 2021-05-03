@@ -1,5 +1,5 @@
 import discord
-import asyncio
+from datetime import datetime
 from discord.ext import commands
 from discord.ext.commands.context import Context
 from discord import embeds
@@ -36,6 +36,7 @@ async def get_mutes(ctx: Context):
                               color=discord.colour.Color.blue())
         meanem.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
         await log_channel.send(embed=meanem)
+        print(modifier.date_string(), datetime.now())
     else:
         await ctx.send(f"{ctx.author.mention}! Nincs jogusultságod futtatni ezt a parancsot!")
 
