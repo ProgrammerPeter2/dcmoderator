@@ -3,7 +3,7 @@ from discord.ext import commands, tasks
 from discord.message import Message
 from libs import modifier
 import datetime
-import os
+import pytz
 from libs import db_manage
 from libs import mutedate_cal
 
@@ -19,7 +19,7 @@ muterole = None
 
 @client.event
 async def on_ready():
-    os.environ['TZ'] = 'Europe/Budapest'
+    pytz.timezone("Europe/Budapest")
     print("Bot is ready!")
     global log_channel, guild, config, mutes, badWords, speakrole, muterole
     badWords = db_manage.select("badWords", ["*"], "")
