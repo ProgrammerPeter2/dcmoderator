@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands, tasks
-from discord.role import Role
 from discord.message import Message
 from libs import modifier
 import datetime

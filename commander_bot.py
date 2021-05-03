@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands.context import Context
-from discord import embeds, member, channel
+from discord.embeds import Embed
 from libs import db_manage
 from libs import modifier
 
@@ -31,7 +31,7 @@ async def get_mutes(ctx: Context):
         for mute in mutes:
             member = await guild.fetch_member(int(mute[1]))
             await ctx.author.send(f"{member} némítva eddig_ {modifier}")
-    meanem = embeds.Embed(title="Jelentés", description=f"{ctx.author} lekérte az összes aktív némítást!",
+    meanem = Embed(title="Jelentés", description=f"{ctx.author} lekérte az összes aktív némítást!",
                         color=discord.colour.Color.blue())
     meanem.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
     await log_channel.send(embed=meanem)
@@ -61,7 +61,7 @@ async def addword(ctx: Context, word):
         badWords = db_manage.select("badwords", ["*"], "")
         if not word in badWords:
             await ctx.send("Tiltott szó hozzáadva")
-            meanem = embeds.Embed(title="Jelentés", description=f"{ctx.author} hozzáadot egy új tiltott szót!",
+            meanem = Embed(title="Jelentés", description=f"{ctx.author} hozzáadot egy új tiltott szót!",
                                     colour=discord.colour.Color.blue())
             meanem.set_author(name=str(ctx.author), icon_url=ctx.author.avatar_url)
             meanem.add_field(name="Tiltott szó:", value=word)
