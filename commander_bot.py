@@ -86,4 +86,15 @@ async def clear(ctx: Context, limit=0):
     else:
         await ctx.send(f"{ctx.author.mention}! Nincs jogosultságod futtatni ezt a parancsot!")
 
+@client.command()
+async def stop(ctx: Context):
+    if ctx.guild.get_role(831444642780282881) in ctx.author.roles:
+        await log_channel.send("Moderátorbot parancsai kikapcsolva!")
+        await client.logout()
+    else:
+        await ctx.send(f"{ctx.author.mention} Nincs jogod kikapcsolni ezt a botot!")
+        meamem = embeds.Embed(title="Kikapcsolási kísérlet!", description=f"{ctx.author} megpróbálta kikapcsolni moderátor botot!",
+                              colour=discord.colour.Colour.red())
+        meamem.set_author(name="Fejlesztői riasztás!", icon_url=ctx.author.avatar_url)
+        await ctx.send(embed=meamem)
 client.run("ODM4NDAzMjk0NDY0MTgxMjc1.YI6l6g.IInc1pZqdN92JIY-rrXHIOA8FB0")
