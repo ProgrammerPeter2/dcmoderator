@@ -1,2 +1,2 @@
 worker: python bot.py
-worker: python commander_bot.py
+processor: python commander_bot.py
