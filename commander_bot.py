@@ -97,5 +97,5 @@ async def stop(ctx: Context):
         meamem = embeds.Embed(title="Kikapcsolási kísérlet!", description=f"{ctx.author} megpróbálta kikapcsolni moderátor botot!",
                               colour=discord.colour.Colour.red())
         meamem.set_author(name="Fejlesztői riasztás!", icon_url=ctx.author.avatar_url)
-        await ctx.send(embed=meamem)
+        await log_channel.send(embed=meamem)
 client.run("ODM4NDAzMjk0NDY0MTgxMjc1.YI6l6g.IInc1pZqdN92JIY-rrXHIOA8FB0")
