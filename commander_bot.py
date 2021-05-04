@@ -90,7 +90,7 @@ async def clear(ctx: Context, limit=0):
 async def stop(ctx: Context):
     if ctx.guild.get_role(831444642780282881) in ctx.author.roles:
         await log_channel.send("Moderátorbot parancsai kikapcsolva!")
-
+        exit(0)
     else:
         await ctx.send(f"{ctx.author.mention} Nincs jogod kikapcsolni ezt a botot!")
         meamem = embeds.Embed(title="Kikapcsolási kísérlet!", description=f"{ctx.author} megpróbálta kikapcsolni moderátor bot parancsait!",
