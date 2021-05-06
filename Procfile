@@ -1,2 +1,3 @@
 worker: python bot.py
 processor: python commander_bot.py
+web: npm run start

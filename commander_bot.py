@@ -31,12 +31,14 @@ async def get_mutes(ctx: Context):
         else:
             for mute in mutes:
                 member = await guild.fetch_member(int(mute[1]))
-                await ctx.author.send(f"{member} némítva eddig_ {modifier}")
+                await ctx.author.send(f"{member} némítva eddig_ {mute[2]}")
         meanem = embeds.Embed(title="Jelentés", description=f"{ctx.author} lekérte az összes aktív némítást!",
                               color=discord.colour.Color.blue())
         meanem.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
         await log_channel.send(embed=meanem)
         print(modifier.date_string(), datetime.now())
+        db_manage.insert("logs", ["id", "user", "target", "date", "action"],
+                         f"0, '{ctx.author}', '', '{modifier.date_string()}', 'némítások lekérése'")
     else:
         await ctx.send(f"{ctx.author.mention}! Nincs jogusultságod futtatni ezt a parancsot!")
 
@@ -50,6 +52,8 @@ async def badWords(ctx: Context):
             if w != '(' or w != '\'' or w != ')' or w != ',':
                 word += w
         await ctx.send(word)
+    db_manage.insert("logs", ["id", "user", "target", "date", "action"],
+                     f"0, '{ctx.author}', '', '{modifier.date_string()}', 'tiltott szavak listázása'")
 
 @client.event
 async def on_command_error(error, ctx:Context):
@@ -57,44 +61,15 @@ async def on_command_error(error, ctx:Context):
         await ctx.send("Nem adtad meg az összes paramétert!")
 
 @client.command()
-async def addword(ctx: Context, word=""):
-    if moderatorrole in ctx.author.roles:
-        if word != "":
-            badWords = db_manage.select("badwords", ["*"], "")
-            print(badWords)
-            if not word in badWords:
-                await ctx.send("Tiltott szó hozzáadva")
-                meanem = embeds.Embed(title="Jelentés", description=f"{ctx.author} hozzáadot egy új tiltott szót!",
-                                      colour=discord.colour.Color.blue())
-                meanem.set_author(name=str(ctx.author), icon_url=ctx.author.avatar_url)
-                meanem.add_field(name="Tiltott szó:", value=word)
-                await log_channel.send(embed=meanem)
-            else:
-                await ctx.send("Ez a szó már szerepel a listán")
-        else:
-            await ctx.send("Nem adtál meg szavat!")
-    else:
-        await ctx.send(f"{ctx.author.mention}! Nincs jogosultságod futtatni ezt a parancsot!")
-
-@client.command()
 async def clear(ctx: Context, limit=0):
     if moderatorrole in ctx.author.roles:
         if limit > 0:
             await ctx.channel.purge(limit=limit)
+            db_manage.insert("logs", ["id", "user", "target", "date", "action"],
+                             f"0, '{ctx.author}', '{ctx.channel}', '{modifier.date_string()}', 'csatorna tisztítása'")
         else:
             raise commands.MissingRequiredArgument
     else:
         await ctx.send(f"{ctx.author.mention}! Nincs jogosultságod futtatni ezt a parancsot!")
 
-@client.command()
-async def stop(ctx: Context):
-    if ctx.guild.get_role(831444642780282881) in ctx.author.roles:
-        await log_channel.send("Moderátorbot parancsai kikapcsolva!")
-        exit(0)
-    else:
-        await ctx.send(f"{ctx.author.mention} Nincs jogod kikapcsolni ezt a botot!")
-        meamem = embeds.Embed(title="Kikapcsolási kísérlet!", description=f"{ctx.author} megpróbálta kikapcsolni moderátor bot parancsait!",
-                              colour=discord.colour.Colour.red())
-        meamem.set_author(name="Fejlesztői riasztás!", icon_url=ctx.author.avatar_url)
-        await log_channel.send(embed=meamem)
 client.run("ODM4NDAzMjk0NDY0MTgxMjc1.YI6l6g.IInc1pZqdN92JIY-rrXHIOA8FB0")

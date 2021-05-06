@@ -44,6 +44,8 @@ async def bgtest():
             except:
                 pass
             db_manage.remove("mutes", "id=%s" %mute[0])
+            db_manage.insert("logs", ["id", "user", "target", "date", "action"],
+                             f"0, 'moderátorbot', '{member}', '{mute[2]}', 'némítás felodása'")
             print(member, "was unmuted.")
 
 @client.event
@@ -51,7 +53,7 @@ async def on_message(message: Message):
     channel = message.channel
     user = message.author
     words = message.content.lower().split(chr(32))
-    global badWords, log_channel, config, guild, speakrole, muterole
+    global badWords
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
@@ -98,6 +100,7 @@ async def on_message(message: Message):
         await log_channel.send(embed=embed)
         await user.add_roles(muterole)
         await user.remove_roles(speakrole)
+        db_manage.insert("logs", ["id", "user", "target", "date", "action"], f"0, 'moderátorbot', '{user}', '{modifier.date_string(mutedate)}', 'némítás'")
         await channel.send(f"{user.mention} Ne beszélj csúnyán!")
         await user.send(f"{user.mention} {bwttext} némítva lettél!")
         try:
