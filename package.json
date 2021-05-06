@@ -4,7 +4,7 @@
   "description": "Node Js Tutorial",
   "main": "app.js",
   "scripts": {
-    "start": "cls && node app.js"
+    "start": "nmp app.js"
   },
   "author": "Daily Code Buffer",
   "license": "ISC",
