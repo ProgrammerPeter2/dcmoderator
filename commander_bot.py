@@ -73,5 +73,5 @@ async def clear(ctx: Context, limit=0):
     else:
         await ctx.send(f"{ctx.author.mention}! Nincs jogosultságod futtatni ezt a parancsot!")
         db_manage.insert("logs", ["id", "user", "target", "date", "action"],
-                         f"0, '{ctx.author}', '{ctx.channel}', '{modifier.date_string()}', 'clf'")
+                         f"0, '{ctx.author}', '{ctx.channel}', '{modifier.date_string()}', 'clf mr'")
 client.run("ODM4NDAzMjk0NDY0MTgxMjc1.YI6l6g.IInc1pZqdN92JIY-rrXHIOA8FB0")
