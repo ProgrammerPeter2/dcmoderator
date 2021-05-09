@@ -26,6 +26,7 @@ async def get_mutes(ctx: Context):
         _channel = ctx.channel
         await _channel.send(f"{ctx.author.mention} a némítások adatait elküldöm privátban!")
         mutes = db_manage.select("mutes", ["*"], "")
+        print(mutes, ctx.author)
         if len(mutes) < 1:
             await ctx.author.send(f"{modifier.date_string()}: Nincs egy aktív némítás sem!")
         else:
