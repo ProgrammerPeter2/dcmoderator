@@ -38,7 +38,7 @@ async def get_mutes(ctx: Context):
         await log_channel.send(embed=meanem)
         print(modifier.date_string(), datetime.now())
         db_manage.insert("logs", ["id", "user", "target", "date", "action"],
-                         f"0, '{ctx.author}', '', '{modifier.date_string()}', 'némítások lekérése'")
+                         f"0, '{ctx.author}', '', '{modifier.date_string()}', 'getmute'")
     else:
         await ctx.send(f"{ctx.author.mention}! Nincs jogusultságod futtatni ezt a parancsot!")
 
@@ -53,7 +53,7 @@ async def badWords(ctx: Context):
                 word += w
         await ctx.send(word)
     db_manage.insert("logs", ["id", "user", "target", "date", "action"],
-                     f"0, '{ctx.author}', '', '{modifier.date_string()}', 'tiltott szavak listázása'")
+                     f"0, '{ctx.author}', '', '{modifier.date_string()}', 'gbw'")
 
 @client.event
 async def on_command_error(error, ctx:Context):
@@ -66,7 +66,7 @@ async def clear(ctx: Context, limit=0):
         if limit > 0:
             await ctx.channel.purge(limit=limit)
             db_manage.insert("logs", ["id", "user", "target", "date", "action"],
-                             f"0, '{ctx.author}', '{ctx.channel}', '{modifier.date_string()}', 'csatorna tisztítása'")
+                             f"0, '{ctx.author}', '{ctx.channel}', '{modifier.date_string()}', 'clear'")
         else:
             raise commands.MissingRequiredArgument
     else:
