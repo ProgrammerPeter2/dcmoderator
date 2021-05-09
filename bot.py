@@ -29,10 +29,11 @@ async def on_ready():
     speakrole = guild.get_role(834391521917796372)
     muterole = guild.get_role(831484974141407264)
     await log_channel.send("Moderátorbot v1.0 elindítva ekkor: " + modifier.date_string())
-    bgtest.start()
+    unmute.start()
+    updateDb.start()
 
 @tasks.loop(seconds=1)
-async def bgtest():
+async def unmute():
     global log_channel, mutes, speakrole, muterole
     mutes = db_manage.select("mutes", ["*"], "")
     for mute in mutes:
@@ -47,6 +48,11 @@ async def bgtest():
             db_manage.insert("logs", ["id", "user", "target", "date", "action"],
                              f"0, 'moderátorbot', '{member}', '{mute[2]}', 'unmute'")
             print(member, "was unmuted.")
+
+@tasks.loop(seconds=10)
+async def updateDb():
+    global badWords
+    badWords = db_manage.select("badwords", ["*"], "")
 
 @client.event
 async def on_message(message: Message):
