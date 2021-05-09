@@ -67,10 +67,11 @@ async def clear(ctx: Context, limit=0):
         if limit > 0:
             await ctx.channel.purge(limit=limit)
             db_manage.insert("logs", ["id", "user", "target", "date", "action"],
-                             f"0, '{ctx.author}', '{ctx.channel}', '{modifier.date_string()}', 'clear'")
+                             f"0, '{ctx.author}', '{ctx.channel}', '{modifier.date_string()}', 'cls {limit}'")
         else:
             raise commands.MissingRequiredArgument
     else:
         await ctx.send(f"{ctx.author.mention}! Nincs jogosultságod futtatni ezt a parancsot!")
-
+        db_manage.insert("logs", ["id", "user", "target", "date", "action"],
+                         f"0, '{ctx.author}', '{ctx.channel}', '{modifier.date_string()}', 'clf'")
 client.run("ODM4NDAzMjk0NDY0MTgxMjc1.YI6l6g.IInc1pZqdN92JIY-rrXHIOA8FB0")
