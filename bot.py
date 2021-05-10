@@ -75,7 +75,7 @@ async def on_message(message: Message):
         badword = ""
         isBadWord = False
         for badWord in badWords:
-            if badWord in word:
+            if modifier.rem_char(badWord) in word:
                 isBadWord = True
                 badWord_counter += 1
                 badWordTime += badWordTimer
