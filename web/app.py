@@ -3,7 +3,6 @@ import db_manage
 import logMaker as log
 import modifier
 import discord_webhook as webhook
-from oauth import discord
 app = Flask(__name__)
 app.secret_key = '1234'
 
