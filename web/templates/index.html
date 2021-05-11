@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Dcmoderator Dashboard</title>
+    <link rel="icon" href="../favico.ico"/>
+</head>
+<body>
+     <h1>Hello! Kérlek jelentkezz be a dcmoderátor kezelőfelületébe!</h1>
+     <p style="color: red">{{error}}</p>
+     <p>{{message}}</p>
+     <form name="login" action="/login" method="post">
+         <p>Felhasználónév:<br/>
+            <input type="text" name="uname" placeholder="Add meg a felhasználnevedet!"/><br/>
+             Jelszó:<br/>
+             <input type="password" name="pass" placeholder="Add meg a jelszavadat!"/><br/>
+             <button type="submit">Belépés!</button>
+         </p>
+     </form>
+    <!--<a href="{{discord_url}}"><button>Login with discord</button></a>-->
+</body>
+</html>

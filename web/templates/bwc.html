@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Dcmoderator Dashboard</title>
+    <link rel="icon" href="../favico.ico"/>
+</head>
+<body>
+    <h2>Csúnya szó hozzáadása</h2>
+    <p><a href="/home">Vissza a főoldalra</a></p>
+    <form action="/bwadd" name="bwc" method="post">
+        <p>
+            <strong style="color: red;">{{error}}</strong><br/>
+            Add meg a szót: <input name="word" type="text">
+        </p>
+        <button type="submit">Csúnya szó hozzáadása</button>
+    </form>
+</body>
+</html>

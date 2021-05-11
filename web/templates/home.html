@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Dcmoderator dashboard</title>
+    <link rel="stylesheet" href="../static/tables.css"/>
+    <link rel="icon" href="../favico.ico"/>
+</head>
+<body>
+    <h2>Üdv. újra itt {{user}}!</h2>
+    <p><a href="/logout">Kijelentkezés</a></p>
+    <div id="mutes">
+        <h3>Némítások</h3>
+        <p><a href="/rc"><button>Némításszámláló nullázása</button></a></p>
+        <table class="table">
+            <tr class="table__header">
+                <th>Id</th>
+                <th>Felhasználónév</th>
+                <th>A némítás vége</th>
+            </tr>
+            {% for row in datas %}
+            <tr class="table__row">
+                {% for cell in row %}
+                    <td class="table__cell">{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div><div id="logs">
+    <h3>Logok</h3>
+        <p>Itt csak a legutolsó 15 esemény van listázva. A teljes listát <a href="/home/logs">itt találod.</a></p>
+        <table class="table">
+            <tr class="table__header">
+                <th>Id</th>
+                <th>Esemény időpontja</th>
+                <th>Az esemény leírása</th>
+            </tr>
+            {% for row in logs %}
+            <tr class="table__row">
+                {% for cell in row %}
+                    <td class="table__cell">{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div><div id="badWords">
+        <h3>Csúnya szavak</h3>
+        <p><a href="/bwa?act=new">Új szó hozzáadása</a> </p>
+        <table class="table">
+            <tr class="table__header">
+                <th>Csúnya szó</th>
+                <th>Törlés</th>
+            </tr>
+            {% for word in words %}
+            <tr class="table__row">
+                <td class="table__cell">{{word}}</td>
+                <td class="table__cell">
+                    {% set link = ["/bwa", "?act=del&word=", word]|join('')%}
+                    <a href={{link}}><img src="../static/img/delete.png"></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
