@@ -20,7 +20,7 @@ muterole = None
 async def on_ready():
     print("Bot is ready!")
     global log_channel, guild, config, mutes, badWords, speakrole, muterole
-    badWords = db_manage.select("badWords", ["*"], "")
+    badWords = db_manage.select("badwords", ["*"], "")
     config = db_manage.select("config", ["*"], "")
     guild = client.get_guild(831444546054389760)
     log_channel = client.get_channel(831509478427328522)
@@ -50,7 +50,7 @@ async def unmute():
 @tasks.loop(seconds=10)
 async def updateDb():
     global badWords
-    badWords = db_manage.select("badwords", ["*"], "")
+    badWords = db_manage.select("badwords".lower(), ["*"], "")
 
 @client.event
 async def on_message(message: Message):
