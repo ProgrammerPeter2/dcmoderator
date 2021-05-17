@@ -2,11 +2,11 @@ import requests
 
 url = "https://discord.com/api/webhooks/840904820574912563/K343skkJDBmsc9McIHthn2TQ-ETUo0f4ftmzRUyghOmwXkNOwdTd2v2iQE438MOIABFL"
 
-def sendWebhook(text: str):
+def sendWebhook(text: str, title: str):
     data = {"content": "", "username": "Moderátorbot Logging", "embeds": [
         {
             "description": text,
-            "title": "Tiltott szó törlése",
+            "title": title,
             "color": "24816"
         }
     ]}

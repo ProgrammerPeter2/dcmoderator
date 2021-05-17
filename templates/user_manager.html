@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dcmoderator Dashboard</title>
+    <link href="../../static/tables.css" rel="stylesheet"/>
+</head>
+<body>
+    <h2>Felhasználókezelés</h2>
+    <p><a href="/home">Vissza a főoldalra</a></p>
+    <p><a href="/home/userManager/createUser"><button>új felhasználó létrehozása</button></a></p>
+    <p style="color: red">{{error}}</p>
+    <p>{{msg}}</p>
+    <table class="table">
+        <tr class="table__header">
+            <th>ID</th>
+            <th>Felhasználónév</th>
+            <th>Név</th>
+            <th>Discord név</th>
+            <th>Jogusultság</th>
+            <th>Műveletek</th>
+        </tr>
+        {% for user in users %}
+            <tr class="table__row">
+                {% for cell in user %}
+                <td class="table__cell">{{cell}}</td>
+                {% endfor %}
+                {% set uid = user[0] %}
+                {% set modink = ["/home/userManager/modifyuser?uid=", uid]|join('') %}
+                {% set dink = ["/home/userManager/deluser?uid=", uid]|join('') %}
+                <td class="table__cell">
+                    <a href={{modink}}><img src="../../static/img/edit.png"/></a>
+                    <a href={{dink}}><img src="../../static/img/delete.png"/></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

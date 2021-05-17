@@ -62,3 +62,10 @@ def getDictintFromList(list: list, key):
         except Exception:
             continue
     return value
+
+def includeMatrix(matrix: list, key: str):
+    included = False
+    for array in matrix:
+            if key in array:
+                included = True
+    return included

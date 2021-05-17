@@ -11,7 +11,7 @@ def get_connection(host, user, password, db):
 base_conn = get_connection("remotemysql.com", "LMhwjDOQr9", "iIykidkeEl", "LMhwjDOQr9")
 
 def make_columnsText(columns: list, chars: str):
-    columnsText: str
+    columnsText = ""
     if len(columns) == 1:
         columnsText = columns[0]
     elif len(columns) > 1:
@@ -99,4 +99,4 @@ def remove(table: str, whereDeleteFrom: str, conn=base_conn):
             cursor.execute(sql)
             conn.commit()
         except connector.Error as cerr:
-            print("Msql error, " + sql, cerr)
+            print(sql, "\nMsql error, " + sql, cerr)

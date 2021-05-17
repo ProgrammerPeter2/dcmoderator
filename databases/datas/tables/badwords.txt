@@ -1,6 +1,0 @@
-kurva,
-buzi,
-fasz,
-geci,
-seggfej,
-rohadék

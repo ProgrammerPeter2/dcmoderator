@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dcmoderator Dashboard</title>
+    <link href="../../static/tables.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .required{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Új felhasználó létrehozása</h2>
+    <p>{{msg}}</p>
+    <p style="color: red">{{err}}</p>
+    <p><a href="/home">Vissza a főoldalra</a> | <a href="/home/userManager">Vissza a felhasználókhoz</a></p>
+    <table class="table">
+        <tr class="table__header">
+            <th>Felhasználónév <div class="requied">*</div></th>
+            <th>Jelszó <div class="requied">*</div></th>
+            <th>Név <div class="requied">*</div></th>
+            <th>Discord felhasználónév</th>
+            <th>Jogosultság</th>
+        </tr>
+        <tr class="table__row">
+            <form action="/home/userManager/createUser/action" method="post">
+                <td class="table__cell"><input type="text" name="usern"/></td>
+                <td class="table__cell"><input type="password" name="pasw"/></td>
+                <td class="table__cell"><input type="text" name="name"/></td>
+                <td class="table__cell"><input type="text" name="dcname"/></td>
+                <td class="table__cell">
+                    <select name="rank">
+                        <option selected="selected">Moderátor</option>
+                        <option>Globális adminisztrátor</option>
+                    </select>
+                </td>
+                <td class="talbe__cell"><button type="submit">Felhasználó létrehozása</button></td>
+            </form>
+        </tr>
+    </table>
+</body>
+</html>

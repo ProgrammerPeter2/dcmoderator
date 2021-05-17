@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dcmoderator Dashboard</title>
+    <link href="../../static/tables.css" rel="stylesheet"/>
+    <style type="text/css">
+        .not-changeable {
+            color: #242424;
+        }
+    </style>
+</head>
+<body>
+    <h2>Felhasználó adatainak módosítása</h2>
+    <p><a href="/home">Vissza a főoldalra</a> | <a href="/home/userManager">Vissza a felhasználókhoz</a></p>
+    <table class="table">
+        <tr class="table__header">
+            <th>ID</th>
+            <th>Felhasználónév</th>
+            <th>Név</th>
+            <th>Discord név</th>
+            <th>Jogusultság</th>
+            <th>Műveletek</th>
+        </tr>
+            <tr class="table__row">
+                <form name="modify" action="/home/userManager/modifyuser/action" method="post">
+                    <td class="table__cell not-changeable">{{userDatas[0]}}</td>
+                    <td class="table__cell not-changeable">{{userDatas[1]}}</td>
+                    <td class="table__cell"><input name="name" type="text" placeholder={{userDatas[2]}} value={{userDatas[2]}} /></td>
+                    <td class="table__cell"><input name="dcname" type="text" placeholder={{userDatas[3]}} value={{userDatas[3]}} /></td>
+                    <td class="table__cell">
+                        <select name="rank">
+                            {% for rank in ranks %}
+                                <option selected={{rank[1]}}>{{rank[0]}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td><button type="submit">Kész!</button></td>
+                </form>
+            </tr>
+    </table>
+</body>
+</html>

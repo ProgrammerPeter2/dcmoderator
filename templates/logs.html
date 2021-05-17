@@ -9,7 +9,7 @@
 <body>
     <h2>Logok</h2>
     <p><a href="/home">Vissza a főoldalra</a></p>
-    <form method="post" action="/la">
+    <form method="post" action="/home/logs/order">
         <p>Rendezés:
             <select name="order" id="order">
                 <option name="normal" selected="selected">Nem túl régi esmények elől</option>
@@ -18,6 +18,7 @@
             <button type="submit">Rendezés!</button>
         </p>
     </form>
+    <a href={{truncateLink}} style="color: red">{{truncateText}}</a>
     <table class="table">
         <tr class="table__header">
             <th>Id</th>

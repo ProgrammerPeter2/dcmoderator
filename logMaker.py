@@ -46,5 +46,33 @@ def makeLogs(logs: list):
         elif action == "rnc":
             date = deadline
             logText = f"{user.capitalize()} nullázta a némítás számlálót."
+        elif action == "mdu":
+            date = deadline
+            logText = f"{user.capitalize()} módosította {target.capitalize()} felhasználó adatait."
+        elif action == "cu":
+            date = deadline
+            logText = f"{user.capitalize()} létrehozta {target.capitalize()} felhasználót."
+        elif action == "du":
+            date = deadline
+            logText = f"{user.capitalize()} törölte {target.capitalize()} felhasználót."
+        elif action == "dl":
+            date = deadline
+            logText = f"{user.capitalize()} törölte az összes logot!"
         logData.append([_id, date, logText])
     return logData
+
+def rankDecoder(rank: int):
+    _return = ""
+    if rank == 1:
+        _return = "Moderátor"
+    elif rank == 5:
+        _return = "Globális adminisztrátor"
+    return _return
+
+def rankEncoder(rank: str):
+    rankid = 0
+    if rank.lower() == "moderátor":
+        rankid = 1
+    elif rank.lower() == "globális adminisztrátor":
+        rankid = 5
+    return rankid
