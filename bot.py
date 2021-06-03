@@ -10,6 +10,7 @@ from libs import mutedate_cal
 
 
 client = commands.Bot(command_prefix="~")
+client.remove_command("help")
 badWords = []
 mutes = {}
 log_channel = client.get_channel(831509478427328522)
@@ -28,7 +29,7 @@ async def on_ready():
     speakrole = guild.get_role(834391521917796372)
     muterole = guild.get_role(831484974141407264)
     moderatorrole = guild.get_role(831484977102323712)
-    await log_channel.send("Moderátorbot v1.1 elindítva ekkor: " + modifier.date_string())
+    await log_channel.send("Moderátorbot v1.2 elindítva ekkor: " + modifier.date_string())
     unmute.start()
     updateDb.start()
 
@@ -91,7 +92,6 @@ async def _badwords(channel: discord.TextChannel, author: str):
 async def clear(channel: discord.TextChannel, author: discord.member.Member, limit=0, isModerator = False):
     if isModerator:
         if limit > 0:
-
             await channel.purge(limit=limit+1)
             db_manage.insert("logs", ["id", "user", "target", "date", "action"],
                              f"0, '{author}', '{channel}', '{modifier.date_string()}', 'cls {limit+1}'")
@@ -172,4 +172,19 @@ async def on_message(message: Message):
         elif content.startswith('~clear'):
             limit = int(content[6:])
             await clear(channel, user, limit, isModerator)
+        elif content.startswith('~changelog'):
+            changelog = embeds.Embed(title="Fejlesztési infó", description="Itt találod a verzióelőzményeket:", colour=4289797)
+            changelog.add_field(name="Beta verziók", value="Moderátor funkciók futtatása", inline=False)
+            changelog.add_field(name="Verzió 1.0", value="Logging rendszer, Parancsok bot, webes kezelőfelület béta", inline=False)
+            changelog.add_field(name="Verzió 1.1", value="Parancsok-bot beolvasztása a fő botba", inline=False)
+            changelog.add_field(name="Verzió 1.2", value="Changelog és help parancsok", inline=False)
+            await channel.send(embed=changelog)
+        elif content.startswith('~help'):
+            helpText = embeds.Embed(title="Parancsok", description="Itt találod a parancsokat!", colour=4289797)
+            helpText.add_field(name="Prefix:", value="~")
+            helpText.add_field(name="Csak moderátoroknak elérhető:",
+                               value="~get_mutes\n Megírja neked az összes aktív némítást!\n~clear\n Kitörli a megadott mennyiséget!", inline=False)
+            helpText.add_field(name="Általános parancsok:",
+                               value="~badwords\n Kiírja az összes tiltott szót!\n~changelog\n Kiírja a verzióelőzményeket!", inline=False)
+            await channel.send(embed=helpText)
 client.run("ODM2ODkzMzA4MDEyNzI0MjU0.YIknoQ.ARQhKKk-hEnlU53qK0yY8rXI59A")

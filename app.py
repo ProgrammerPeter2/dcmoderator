@@ -24,54 +24,63 @@ def index():
 def login():
     uname = request.form.get('uname')
     passw = request.form.get('pass')
+    session['rank'] = 0
     user_datas = db_manage.select("users", ["*"], "")
     ip = request.environ['REMOTE_ADDR']
     loggedIn = False
     username = ""
     rank: int
-    for user in user_datas:
-        if user[1] == uname and user[2] == passw:
-            loggedIn = True
-            username = user[3]
-            rank = user[5]
-    if loggedIn:
-        session['name'] = username
-        session['rank'] = rank
-        db_manage.insert("logs", ["id", "user", "target", "date", "action"],
-                         f"0, '{username}', '', '{modifier.date_string()}', 'lis'")
-        return redirect(location='/home')
+    if len(user_datas) == 0:
+        for user in user_datas:
+            if user[1] == uname and user[2] == passw:
+                loggedIn = True
+                username = user[3]
+                rank = user[5]
+        if loggedIn:
+            session['name'] = username
+            session['rank'] = rank
+            db_manage.insert("logs", ["id", "user", "target", "date", "action"],
+                             f"0, '{username}', '', '{modifier.date_string()}', 'lis'")
+            return redirect(location='/home')
+        else:
+            db_manage.insert("logs", ["id", "user", "target", "date", "action"],
+                             f"0, '{ip}', '', '', 'lif'")
+            session['error'] = "Something went wrong with your login datas!"
+            return redirect(location="/")
     else:
-        db_manage.insert("logs", ["id", "user", "target", "date", "action"],
-                         f"0, '{ip}', '', '', 'lif'")
-        session['error'] = "Something went wrong with your login datas!"
-        return redirect(location="/")
+        session['error'] = "Sorry we are lost connection with mysql server! Please try again later!"
+        return redirect(location='/')
 
 @app.route('/home')
 def home():
-    datas = db_manage.select("mutes", ["*"], "")
-    mutes = []
-    if len(datas) > 0:
-        for data in datas:
-            _id = data[0]
-            uname = data[3]
-            mutedate = data[2]
-            mutes.append([_id, uname, mutedate])
+    if session.get('rank', 0) > 0:
+        datas = db_manage.select("mutes", ["*"], "")
+        mutes = []
+        if len(datas) > 0:
+            for data in datas:
+                _id = data[0]
+                uname = data[3]
+                mutedate = data[2]
+                mutes.append([_id, uname, mutedate])
+        else:
+            mutes.append(["", "Nincs egy aktív némítás sem!", ""])
+        session["order"] = "normal"
+        logs = db_manage.select("logs", ["*"], "ORDER BY id DESC LIMIT 15")
+        logData = log.makeLogs(logs)
+        badWords = db_manage.select("badwords", ["*"], "")
+        badwords = []
+        userLink = ""
+        userText = ""
+        if session.get("rank", None) == 5:
+            userText = "Felhasználókezelés"
+            userLink = "/home/userManager/"
+        for word in badWords:
+            badwords.append(modifier.rem_char(word))
+        return render_template("home.html", user=session.get('name', None), datas=mutes,
+                               logs=logData, words=badwords, usertext=userText, userlink=userLink)
     else:
-        mutes.append(["", "Nincs egy aktív némítás sem!", ""])
-    session["order"] = "normal"
-    logs = db_manage.select("logs", ["*"], "ORDER BY id DESC LIMIT 15")
-    logData = log.makeLogs(logs)
-    badWords = db_manage.select("badwords", ["*"], "")
-    badwords = []
-    userLink = ""
-    userText = ""
-    if session.get("rank", None) == 5:
-        userText = "Felhasználókezelés"
-        userLink = "/home/userManager/"
-    for word in badWords:
-        badwords.append(modifier.rem_char(word))
-    return render_template("home.html", user=session.get('name', None), datas=mutes,
-                           logs=logData, words=badwords, usertext=userText, userlink=userLink)
+        session['error'] = "You are not logged in! Please login or ask moderators for permission!"
+        return redirect('/')
 
 @app.route('/rc')
 def reset_mute_counter():
@@ -286,6 +295,7 @@ def logout():
     db_manage.insert("logs", ["id", "user", "target", "date", "action"],
                      f"0, '{session.get('name', None)}', '', '{modifier.date_string()}', 'lo'")
     session['name'] = ""
+    session['rank'] = 0
     session['order'] = "normal"
     return redirect('/')
 
