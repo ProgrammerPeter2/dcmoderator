@@ -53,7 +53,18 @@ async def unmute():
 @tasks.loop(seconds=10)
 async def updateDb():
     global badWords
-    badWords = db_manage.select("badwords".lower(), ["*"], "")
+    bad_words = db_manage.select("badwords", ["*"], "")
+    file = open("/app/datas/badWord.txt", "rw", encoding="utf8")
+    fileAppender = open("/app/datas/badWord.txt", "a", encoding="utf8")
+    if bad_words != []:
+        badWords = bad_words
+        if file.read().split(",\n") != badWords:
+            file.truncate()
+            for word in badWords:
+                _word = word + ",\n"
+                fileAppender.write(_word)
+    if bad_words == [] and badWords == []:
+        badWords = file.read().split(",\n")
 
 async def get_mutes(channel: discord.TextChannel, author: discord.member.Member, isModerator = False):
     if isModerator:
@@ -101,6 +112,7 @@ async def clear(channel: discord.TextChannel, author: discord.member.Member, lim
         await channel.send(f"{author.mention}! Nincs jogosultságod futtatni ezt a parancsot!")
         db_manage.insert("logs", ["id", "user", "target", "date", "action"],
                          f"0, '{author.mention}', '{channel}', '{modifier.date_string()}', 'clf mr'")
+
 @client.event
 async def on_message(message: Message):
     channel = message.channel
@@ -110,7 +122,7 @@ async def on_message(message: Message):
     is_bad_word = False
     bad_words = list()
     badWord_counter = 0
-    badWordTimer = 20
+    badWordTimer = 60
     badWordTime = 0
     try:
         member = await guild.fetch_member(user.id)
@@ -183,7 +195,7 @@ async def on_message(message: Message):
             helpText = embeds.Embed(title="Parancsok", description="Itt találod a parancsokat!", colour=4289797)
             helpText.add_field(name="Prefix:", value="~")
             helpText.add_field(name="Csak moderátoroknak elérhető:",
-                               value="~get_mutes\n Megírja neked az összes aktív némítást!\n~clear\n Kitörli a megadott mennyiséget!", inline=False)
+                               value="~get_mutes\n Megírja neked az összes aktív némítást!\n~clear\n Kitörli a megadott mennyiségű üzenetet!", inline=False)
             helpText.add_field(name="Általános parancsok:",
                                value="~badwords\n Kiírja az összes tiltott szót!\n~changelog\n Kiírja a verzióelőzményeket!", inline=False)
             await channel.send(embed=helpText)
