@@ -4,6 +4,7 @@ from discord.ext import commands, tasks
 from discord.message import Message
 from libs import modifier
 import datetime
+import os
 from libs import db_manage
 from libs import mutedate_cal
 
@@ -199,4 +200,4 @@ async def on_message(message: Message):
             helpText.add_field(name="Általános parancsok:",
                                value="~badwords\n Kiírja az összes tiltott szót!\n~changelog\n Kiírja a verzióelőzményeket!", inline=False)
             await channel.send(embed=helpText)
-client.run("ODM2ODkzMzA4MDEyNzI0MjU0.YIknoQ.ARQhKKk-hEnlU53qK0yY8rXI59A")
+client.run(str(os.getenv("TOKEN")))

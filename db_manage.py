@@ -8,7 +8,7 @@ def get_connection(host, user, password, db):
         pass
     return mydb
 
-base_conn = get_connection("remotemysql.com", "LMhwjDOQr9", "iIykidkeEl", "LMhwjDOQr9")
+base_conn = get_connection("pei17y9c5bpuh987.chr7pe7iynqr.eu-west-1.rds.amazonaws.com", "cdo7yf7r7ixzv2c0", "res6ksoxadp7dill", "nixjtxcwqnk7ac78")
 
 def make_columnsText(columns: list, chars: str):
     columnsText = ""
