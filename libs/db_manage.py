@@ -1,4 +1,5 @@
 import mysql.connector as connector
+import os
 
 def get_connection(host, user, password, db):
     mydb = None
@@ -8,7 +9,7 @@ def get_connection(host, user, password, db):
         pass
     return mydb
 
-base_conn = get_connection("remotemysql.com", "LMhwjDOQr9", "iIykidkeEl", "LMhwjDOQr9")
+base_conn = get_connection(str(os.getenv('mysql-host')), str(os.getenv('mysql-user')), str(os.getenv('mysql-password')), str(os.getenv('mysql-database')))
 
 def make_columnsText(columns: list, chars: str):
     columnsText = columns[0] + chars
