@@ -26,11 +26,14 @@ async def on_ready():
     print("Bot is ready!")
     global log_channel, guild, moderatorrole, mutes, badWords, speakrole, muterole
     badWords = db_manage.select("badwords", ["*"], "")
-    guild = client.get_guild(831444546054389760)
+    try:
+        guild = client.get_guild(831444546054389760)
+    except Exception as e:
+        print(e)
     log_channel = client.get_channel(831509478427328522)
-    speakrole = discord.utils.get(guild.roles, 834391521917796372)
-    muterole = discord.utils.get(guild.roles, 831484974141407264)
-    moderatorrole = discord.utils.get(guild.roles, 831484977102323712)
+    speakrole = discord.utils.get(guild.roles, id=834391521917796372)
+    muterole = discord.utils.get(guild.roles, id=831484974141407264)
+    moderatorrole = discord.utils.get(guild.roles, id=831484977102323712)
     await log_channel.send("Moderátorbot v1.2 elindítva ekkor: " + modifier.date_string())
     unmute.start()
     updateDb.start()
