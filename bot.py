@@ -26,10 +26,8 @@ async def on_ready():
     print("Bot is ready!")
     global log_channel, guild, moderatorrole, mutes, badWords, speakrole, muterole
     badWords = db_manage.select("badwords", ["*"], "")
-    try:
-        guild = client.get_guild(831444546054389760)
-    except Exception as e:
-        print(e)
+    print("TOKEN:", str(os.environ['TOKEN']))
+    guild = client.get_guild(831444546054389760)
     log_channel = client.get_channel(831509478427328522)
     speakrole = discord.utils.get(guild.roles, id=834391521917796372)
     muterole = discord.utils.get(guild.roles, id=831484974141407264)
