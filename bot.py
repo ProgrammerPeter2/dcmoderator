@@ -1,5 +1,6 @@
 import discord
 from discord import embeds
+from discord.utils import get
 from discord.ext import commands, tasks
 from discord.message import Message
 from libs import modifier
@@ -27,9 +28,9 @@ async def on_ready():
     badWords = db_manage.select("badwords", ["*"], "")
     guild = client.get_guild(831444546054389760)
     log_channel = client.get_channel(831509478427328522)
-    speakrole = guild.get_role(834391521917796372)
-    muterole = guild.get_role(831484974141407264)
-    moderatorrole = guild.get_role(831484977102323712)
+    speakrole = discord.utils.get(guild.roles, 834391521917796372)
+    muterole = discord.utils.get(guild.roles, 831484974141407264)
+    moderatorrole = discord.utils.get(guild.roles, 831484977102323712)
     await log_channel.send("Moderátorbot v1.2 elindítva ekkor: " + modifier.date_string())
     unmute.start()
     updateDb.start()
