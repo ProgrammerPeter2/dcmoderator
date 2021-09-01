@@ -200,4 +200,4 @@ async def on_message(message: Message):
             helpText.add_field(name="Általános parancsok:",
                                value="~badwords\n Kiírja az összes tiltott szót!\n~changelog\n Kiírja a verzióelőzményeket!", inline=False)
             await channel.send(embed=helpText)
-client.run(str(os.getenv("TOKEN")))
+client.run(str(os.environ['TOKEN']))
